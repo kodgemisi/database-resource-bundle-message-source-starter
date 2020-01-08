@@ -2,6 +2,7 @@ package com.kodgemisi.cigdem.databasebasedmessagesource;
 
 import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  * @author destan
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JpaBundleContentLoaderStrategy<E extends BundleEntity> implements BundleContentLoaderStrategy {
 
 	private final EntityManager entityManager;

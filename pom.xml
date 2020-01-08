@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kodgemisi.cigdem</groupId>
+    <groupId>com.github.kodgemisi</groupId>
     <artifactId>database-resource-bundle-message-source-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-RC1</version>
 
     <name>Database Resource Bundle Message Source Spring Boot Starter</name>
     <url>https://github.com/kodgemisi/database-resource-bundle-message-source-starter</url>
@@ -29,7 +29,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.1.0.RELEASE</version>
+                <version>2.2.1.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

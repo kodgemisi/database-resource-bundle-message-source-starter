@@ -20,7 +20,11 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.metamodel.EntityType;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,9 +32,9 @@ import java.util.Set;
  *
  * @author destan
  */
+@Slf4j
 @Configuration
 @AutoConfigureBefore(MessageSourceAutoConfiguration.class)
-@Slf4j
 class DatabaseResourceBundleAutoconfiguration {
 
 	@Bean
@@ -42,7 +46,7 @@ class DatabaseResourceBundleAutoconfiguration {
 	@Bean
 	@ConditionalOnMissingBean(BundleContentLoaderStrategy.class)
 	BundleContentLoaderStrategy bundleContentLoaderStrategy(EntityManager entityManager) throws ClassNotFoundException {
-		return new JpaBundleContentLoaderStrategy<>(entityManager, findBundleEntityConcreteClass());
+		return new JpaBundleContentLoaderStrategy<>(entityManager, findBundleEntityConcreteClass(entityManager));
 	}
 
 	@Bean
@@ -80,37 +84,22 @@ class DatabaseResourceBundleAutoconfiguration {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Class<? extends BundleEntity> findBundleEntityConcreteClass() throws ClassNotFoundException {
-		final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+	private Class<? extends BundleEntity> findBundleEntityConcreteClass(EntityManager entityManager) throws ClassNotFoundException {
 
-		scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
-		scanner.addIncludeFilter(new AssignableTypeFilter(BundleEntity.class));
+		final List<Class<?>> entities = new ArrayList<>();
 
-		final StopWatch stopWatch = new StopWatch();
-		stopWatch.start("findCandidateComponents with 'com'");
-
-		Set<BeanDefinition> entities = scanner.findCandidateComponents(
-				"com");//first try this because giving a base significantly improves performance
-		if (entities.isEmpty()) {
-			stopWatch.stop();
-			stopWatch.start("findCandidateComponents with '*'");
-			entities = scanner.findCandidateComponents("");
+		for (EntityType<?> entity : entityManager.getMetamodel().getEntities()) {
+			if (BundleEntity.class.isAssignableFrom(entity.getJavaType())) {
+				entities.add(entity.getJavaType());
+			}
 		}
-		stopWatch.stop();
 
-		log.debug("Scanned in {}", stopWatch.prettyPrint());
+		if (entities.size() == 1) {
+			return (Class<? extends BundleEntity>) entities.get(0);
+		}
 
 		if (entities.size() > 1) {
 			throw new IllegalStateException("There must be exactly one implementation of BundleEntity annotated with @Entity.");
-		}
-
-		for (BeanDefinition bd : entities) {
-			try {
-				return (Class<? extends BundleEntity>) Class.forName(bd.getBeanClassName());
-			}
-			catch (ClassNotFoundException e) {
-				log.error(e.getMessage(), e);
-			}
 		}
 
 		throw new ClassNotFoundException("There should be one class annotated with @Entity and implements BundleEntity.");

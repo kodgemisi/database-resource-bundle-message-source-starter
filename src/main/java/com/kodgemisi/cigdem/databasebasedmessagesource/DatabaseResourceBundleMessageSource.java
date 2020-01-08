@@ -3,6 +3,7 @@ package com.kodgemisi.cigdem.databasebasedmessagesource;
 import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
 import com.kodgemisi.cigdem.databaseresourcbundle.DatabaseResourceBundleControl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.io.Reader;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
  *
  * @author destan
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DatabaseResourceBundleMessageSource extends ResourceBundleMessageSource {
 
 	private final BundleContentLoaderStrategy bundleContentLoaderStrategy;
