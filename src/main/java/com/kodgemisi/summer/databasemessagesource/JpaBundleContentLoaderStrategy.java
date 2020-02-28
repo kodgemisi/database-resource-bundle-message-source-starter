@@ -1,6 +1,6 @@
-package com.kodgemisi.cigdem.databasebasedmessagesource;
+package com.kodgemisi.summer.databasemessagesource;
 
-import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
+import com.kodgemisi.summer.databaseresourcbundle.BundleContentLoaderStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 /**
  * You should provide an entity which implements {@link BundleItem} when using this class as
- * {@link com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy} for {@link com.kodgemisi.cigdem.databaseresourcbundle.DatabaseResourceBundle}.
+ * {@link com.kodgemisi.summer.databaseresourcbundle.BundleContentLoaderStrategy} for {@link com.kodgemisi.summer.databaseresourcbundle.DatabaseResourceBundle}.
  *
  * Created on June, 2018
  *

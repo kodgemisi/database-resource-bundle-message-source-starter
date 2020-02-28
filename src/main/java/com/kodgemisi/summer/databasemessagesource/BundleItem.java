@@ -1,4 +1,4 @@
-package com.kodgemisi.cigdem.databasebasedmessagesource;
+package com.kodgemisi.summer.databasemessagesource;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -20,8 +20,8 @@ import java.util.Comparator;
  * </ul>
  *
  * <p>
- *     You can optionally use {@link com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy#DEFAULT_TABLE_NAME} as table name.
- * 	In which case the database setup would be compatible with {@link com.kodgemisi.cigdem.databaseresourcbundle.DefaultBundleContentLoaderStrategy} as well.
+ *     You can optionally use {@link com.kodgemisi.summer.databaseresourcbundle.BundleContentLoaderStrategy#DEFAULT_TABLE_NAME} as table name.
+ * 	In which case the database setup would be compatible with {@link com.kodgemisi.summer.databaseresourcbundle.DefaultBundleContentLoaderStrategy} as well.
  * </p>
  *
  * Created on January, 2018

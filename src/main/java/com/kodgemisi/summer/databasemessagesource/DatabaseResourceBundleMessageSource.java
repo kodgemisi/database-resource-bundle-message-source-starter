@@ -1,7 +1,7 @@
-package com.kodgemisi.cigdem.databasebasedmessagesource;
+package com.kodgemisi.summer.databasemessagesource;
 
-import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
-import com.kodgemisi.cigdem.databaseresourcbundle.DatabaseResourceBundleControl;
+import com.kodgemisi.summer.databaseresourcbundle.BundleContentLoaderStrategy;
+import com.kodgemisi.summer.databaseresourcbundle.DatabaseResourceBundleControl;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.ResourceBundleMessageSource;

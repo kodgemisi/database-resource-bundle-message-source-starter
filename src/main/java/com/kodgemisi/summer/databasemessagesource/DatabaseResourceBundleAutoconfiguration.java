@@ -1,6 +1,6 @@
-package com.kodgemisi.cigdem.databasebasedmessagesource;
+package com.kodgemisi.summer.databasemessagesource;
 
-import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
+import com.kodgemisi.summer.databaseresourcbundle.BundleContentLoaderStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

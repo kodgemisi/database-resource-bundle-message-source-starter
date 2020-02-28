@@ -1,4 +1,4 @@
-package com.kodgemisi.cigdem;
+package com.kodgemisi.summer;
 
 import static org.junit.Assert.assertTrue;
 

@@ -1,4 +1,4 @@
-package com.kodgemisi.cigdem.databasebasedmessagesource;
+package com.kodgemisi.summer.databasemessagesource;
 
 class StringUtil {
 
