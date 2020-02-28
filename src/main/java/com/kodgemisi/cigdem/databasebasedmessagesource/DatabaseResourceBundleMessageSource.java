@@ -28,16 +28,16 @@ public class DatabaseResourceBundleMessageSource extends ResourceBundleMessageSo
 		// As we won't be using it in any way, to reduce complexity we use this class' classloader.
 		final ClassLoader classLoader = this.getClass().getClassLoader();
 
-		// As we can observe here: org.springframework.context.support.ResourceBundleMessageSource.MessageSourceControl#getTimeToLive
+		// As we can observe here: org.springframework.context.support.ResourceBundleMessageSource.MessageSourceControl.getTimeToLive
 		// MessageSourceControl's getTimeToLive method should return the same value with the ResourceBundleMessageSource#cacheMillis
-		// Since we don't put DatabaseResourceBundleControl class as an inner class and since we cannot use
+		// Since we don't put DatabaseResourceBundleControl class as an inner class as Spring does and since we cannot use
 		// ResourceBundleMessageSource#getCacheMillis in our DatabaseResourceBundleControl class we have to sync the value by
 		// explicitly setting TTL in the constructor of DatabaseResourceBundleControl
 
 		// Also note that when `spring.messages.cache-duration` is not set, bundles are cached forever.
 		// Default value of org.springframework.context.support.AbstractResourceBasedMessageSource.cacheMillis is -1 which is equal to
 		// ResourceBundle.Control.TTL_DONT_CACHE so that's consistent and we don't need to do anything about default value.
-		// See org.springframework.context.support.AbstractResourceBasedMessageSource.setCacheMillis
+		// See org.springframework.context.support.AbstractResourceBasedMessageSource#setCacheMillis
 		return ResourceBundle.getBundle(basename, locale, classLoader, new DatabaseResourceBundleControl(bundleContentLoaderStrategy, getCacheMillis()));
 		//FIXME DatabaseResourceBundleControl could be a field. However what about using setCacheMillis in runtime?
 	}

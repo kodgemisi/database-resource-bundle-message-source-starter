@@ -2,7 +2,6 @@ package com.kodgemisi.cigdem.databasebasedmessagesource;
 
 import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
@@ -10,22 +9,15 @@ import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.metamodel.EntityType;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created on May, 2018
@@ -84,18 +76,18 @@ class DatabaseResourceBundleAutoconfiguration {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Class<? extends BundleEntity> findBundleEntityConcreteClass(EntityManager entityManager) throws ClassNotFoundException {
+	private Class<? extends BundleItem> findBundleEntityConcreteClass(EntityManager entityManager) throws ClassNotFoundException {
 
 		final List<Class<?>> entities = new ArrayList<>();
 
 		for (EntityType<?> entity : entityManager.getMetamodel().getEntities()) {
-			if (BundleEntity.class.isAssignableFrom(entity.getJavaType())) {
+			if (BundleItem.class.isAssignableFrom(entity.getJavaType())) {
 				entities.add(entity.getJavaType());
 			}
 		}
 
 		if (entities.size() == 1) {
-			return (Class<? extends BundleEntity>) entities.get(0);
+			return (Class<? extends BundleItem>) entities.get(0);
 		}
 
 		if (entities.size() > 1) {

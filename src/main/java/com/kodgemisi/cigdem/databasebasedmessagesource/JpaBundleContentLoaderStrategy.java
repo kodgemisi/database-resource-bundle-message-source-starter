@@ -1,7 +1,6 @@
 package com.kodgemisi.cigdem.databasebasedmessagesource;
 
 import com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,17 +15,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * You should provide an entity which implements {@link BundleEntity} when using this class as
+ * You should provide an entity which implements {@link BundleItem} when using this class as
  * {@link com.kodgemisi.cigdem.databaseresourcbundle.BundleContentLoaderStrategy} for {@link com.kodgemisi.cigdem.databaseresourcbundle.DatabaseResourceBundle}.
  *
  * Created on June, 2018
  *
- * @see BundleEntity
+ * @see BundleItem
  * @author destan
  */
 @Slf4j
 @RequiredArgsConstructor
-public class JpaBundleContentLoaderStrategy<E extends BundleEntity> implements BundleContentLoaderStrategy {
+public class JpaBundleContentLoaderStrategy<E extends BundleItem> implements BundleContentLoaderStrategy {
 
 	private final EntityManager entityManager;
 
@@ -45,7 +44,7 @@ public class JpaBundleContentLoaderStrategy<E extends BundleEntity> implements B
 
 			Predicate predicate = builder.equal(root.get("language"), bundleMetaData.language);
 			predicate = builder.and(predicate, builder.equal(root.get("country"), bundleMetaData.country));
-			predicate = builder.and(predicate, builder.equal(root.get("name"), bundleMetaData.basename));
+			predicate = builder.and(predicate, builder.equal(root.get("baseName"), bundleMetaData.basename));
 			predicate = builder.and(predicate, builder.equal(root.get("variant"), bundleMetaData.variant));
 
 			query.distinct(true);
@@ -66,17 +65,17 @@ public class JpaBundleContentLoaderStrategy<E extends BundleEntity> implements B
 
 	@Override
 	public boolean needsReload(String baseName, Locale locale, String format, ResourceBundle bundle, long loadTime) {
+		// Note that this method is only called for expired bundles
 		try {
 			final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			final CriteriaQuery<Long> query = builder.createQuery(Long.class);
 			final Root<E> root = query.from(clazz);
 
-			query.select(root.get("lastModified"));
+			query.select(builder.count(root.get("lastModified")));
 			query.where(builder.greaterThan(root.get("lastModified"), loadTime));
 
-			final List<Long> results = entityManager.createQuery(query).getResultList();
-
-			return !results.isEmpty();
+			final long count = entityManager.createQuery(query).getSingleResult();
+			return count > 0;
 		}
 		catch (Exception e) {
 			// don't let host application crash just because of a database error while getting messages, that would be very unpleasant!
